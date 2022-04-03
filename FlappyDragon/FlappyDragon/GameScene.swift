@@ -14,7 +14,13 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     override func didMove(to view: SKView) {
-        
+        addBackground()
+    }
+    
+    func addBackground() {
+        let background = SKSpriteNode(imageNamed: "background")
+        background.position = CGPoint(x: self.size.width/2, y: self.size.height/2 )
+        addChild(background)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
