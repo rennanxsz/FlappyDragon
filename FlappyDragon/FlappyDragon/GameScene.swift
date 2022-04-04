@@ -99,13 +99,17 @@ class GameScene: SKScene {
                 
                 gameStarted = true
             } else {
-                player.physicsBody?.applyForce(CGVector(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>))
+                player.physicsBody?.velocity = CGVector.zero
+                player.physicsBody?.applyForce(CGVector(dx: 0, dy: flyForce))
             }
         }
     }
         
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        if gameStarted {
+            let yVelocity = player.physicsBody!.velocity.dy * 0.001 as CGFloat
+            player.zRotation = yVelocity
+        }
     }
 }
