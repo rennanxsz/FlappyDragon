@@ -12,6 +12,7 @@ class GameScene: SKScene {
     
     var floor: SKSpriteNode!
     var intro: SKSpriteNode!
+    var player: SKSpriteNode!
     var gameArea: CGFloat = 410.0
     
     
@@ -19,6 +20,7 @@ class GameScene: SKScene {
         addBackground()
         addFloor()
         addIntro()
+        addPlayer()
     }
     
     func addBackground() {
@@ -39,6 +41,13 @@ class GameScene: SKScene {
         intro.position = CGPoint(x: size.width/2, y: size.height - 210)
         intro.zPosition = 3
         addChild(intro)
+    }
+    
+    func addPlayer() {
+        player = SKSpriteNode(imageNamed: "player1")
+        player.position = CGPoint(x: 60, y: size.height - gameArea/2)
+        player.zPosition = 4
+        addChild(player)
     }
     
     
