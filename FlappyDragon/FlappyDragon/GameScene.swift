@@ -47,6 +47,15 @@ class GameScene: SKScene {
         player = SKSpriteNode(imageNamed: "player1")
         player.position = CGPoint(x: 60, y: size.height - gameArea/2)
         player.zPosition = 4
+                
+        var playerTexture = [SKTexture]()
+        for i in 1...4 {
+            playerTexture.append(SKTexture(imageNamed: "player\(i)"))
+        }
+        let animationAction = SKAction.animate(with: playerTexture, timePerFrame: 0.09)
+        let repeatAction = SKAction.repeatForever(animationAction)
+        player.run(repeatAction)
+        
         addChild(player)
     }
     
