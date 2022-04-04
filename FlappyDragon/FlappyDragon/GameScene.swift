@@ -14,6 +14,7 @@ class GameScene: SKScene {
     var intro: SKSpriteNode!
     var player: SKSpriteNode!
     var gameArea: CGFloat = 410.0
+    var velocity: Double = 100.0
     
     
     override func didMove(to view: SKView) {
@@ -21,6 +22,7 @@ class GameScene: SKScene {
         addFloor()
         addIntro()
         addPlayer()
+        moveFloor()
     }
     
     func addBackground() {
@@ -57,6 +59,15 @@ class GameScene: SKScene {
         player.run(repeatAction)
         
         addChild(player)
+    }
+    
+    func moveFloor() {
+        let duration = Double(floor.size.width/2)/velocity
+        let moveFloorAction = SKAction.moveBy(x: -floor.size.width/2, y: 0, duration: duration)
+        let resetXAction = SKAction.moveBy(x: floor.size.width/2, y: 0, duration: 0 )
+        let sequenceAction = SKAction.sequence([moveFloorAction, resetXAction])
+        let repeatAction = SKAction.repeatForever(sequenceAction)
+        floor.run(repeatAction)
     }
     
     
