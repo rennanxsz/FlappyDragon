@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var restart = false
     var scoreLabel: SKLabelNode!
     var score: Int = 0
+    var flyForce: CGFloat = 30.0
     
     override func didMove(to view: SKView) {
         addBackground()
@@ -90,8 +91,15 @@ class GameScene: SKScene {
             if !gameStarted {
                 intro.removeFromParent()
                 addScore()
-            } else {
                 
+                player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width/2 - 10)
+                player.physicsBody?.isDynamic = true
+                player.physicsBody?.allowsRotation = true
+                player.physicsBody?.applyForce(CGVector(dx: 0, dy: flyForce))
+                
+                gameStarted = true
+            } else {
+                player.physicsBody?.applyForce(CGVector(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>))
             }
         }
     }
