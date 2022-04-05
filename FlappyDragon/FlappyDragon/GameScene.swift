@@ -42,7 +42,22 @@ class GameScene: SKScene {
         floor.position = CGPoint(x: floor.size.width/2, y: size.height - gameArea - floor.size.height/2)
         floor.zPosition = 2
         addChild(floor)
+        
+        let invisibleFloor = SKNode()
+        invisibleFloor.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: 1))
+        invisibleFloor.physicsBody?.isDynamic = false
+        invisibleFloor.position = CGPoint(x: size.width/2, y: size.height - gameArea)
+        invisibleFloor.zPosition = 2
+        addChild(invisibleFloor)
+        
+        let invisibleRoof = SKNode()
+        invisibleRoof.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: 1))
+        invisibleRoof.physicsBody?.isDynamic = false
+        invisibleRoof.position = CGPoint(x: size.width/2, y: size.width)
+        invisibleRoof.zPosition = 2
+        addChild(invisibleRoof)
     }
+    
     func addIntro() {
         intro = SKSpriteNode(imageNamed: "intro")
         intro.position = CGPoint(x: size.width/2, y: size.height - 210)
