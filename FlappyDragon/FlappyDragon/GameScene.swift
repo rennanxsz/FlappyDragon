@@ -135,6 +135,11 @@ class GameScene: SKScene {
         enemyBottom.physicsBody?.categoryBitMask = enemyCategory
         enemyBottom.physicsBody?.contactTestBitMask = playerCategory
         
+        let laser = SKNode()
+        laser.position = CGPoint(x: enemyTop.position.x + enemyWidth/2, y: enemyTop.position.y - enemyTop.size.height/2 - enemiesDistante/2)
+        laser.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: enemiesDistante))
+        laser.physicsBody?.isDynamic = false
+        laser.physicsBody?.categoryBitMask = scoreCategory
         
         
         let distance = size.width + enemyWidth
@@ -145,9 +150,11 @@ class GameScene: SKScene {
         
         enemyTop.run(sequenceAction)
         enemyBottom.run(sequenceAction)
+        laser.run(sequenceAction)
         
         addChild(enemyTop)
         addChild(enemyBottom)
+        addChild(laser)
     }
     
     
