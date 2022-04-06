@@ -27,6 +27,9 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+        
+        physicsWorld.contactDelegate = self
+        
         addBackground()
         addFloor()
         addIntro()
@@ -57,6 +60,8 @@ class GameScene: SKScene {
         let invisibleRoof = SKNode()
         invisibleRoof.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: 1))
         invisibleRoof.physicsBody?.isDynamic = false
+        invisibleFloor.physicsBody?.categoryBitMask = enemyCategory
+        invisibleFloor.physicsBody?.contactTestBitMask = playerCategory
         invisibleRoof.position = CGPoint(x: size.width/2, y: size.height)
         invisibleRoof.zPosition = 2
         addChild(invisibleRoof)
@@ -117,6 +122,9 @@ class GameScene: SKScene {
         enemyTop.zPosition = 1
         enemyTop.physicsBody = SKPhysicsBody(rectangleOf: enemyTop.size)
         enemyTop.physicsBody?.isDynamic = false
+        enemyTop.physicsBody?.categoryBitMask = enemyCategory
+        enemyTop.physicsBody?.contactTestBitMask = playerCategory
+        
         
         
         let enemyBottom = SKSpriteNode(imageNamed: "enemybottom\(enemyNumber)")
@@ -124,6 +132,10 @@ class GameScene: SKScene {
         enemyBottom.zPosition = 1
         enemyBottom.physicsBody = SKPhysicsBody(rectangleOf: enemyBottom.size)
         enemyBottom.physicsBody?.isDynamic = false
+        enemyBottom.physicsBody?.categoryBitMask = enemyCategory
+        enemyBottom.physicsBody?.contactTestBitMask = playerCategory
+        
+        
         
         let distance = size.width + enemyWidth
         let duration = Double(distance)/velocity
@@ -171,6 +183,20 @@ class GameScene: SKScene {
         if gameStarted {
             let yVelocity = player.physicsBody!.velocity.dy * 0.001 as CGFloat
             player.zRotation = yVelocity
+        }
+    }
+}
+
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        if gameStarted {
+            if contact.bodyA.categoryBitMask == scoreCategory || contact.bodyB.categoryBitMask == scoreCategory {
+                score += 1
+                scoreLabel.text = "\(score)"
+            } else if contact.bodyA.categoryBitMask == enemyCategory || contact.bodyB.categoryBitMask == enemyCategory{
+                print("GameOver")
+            }
         }
     }
 }
