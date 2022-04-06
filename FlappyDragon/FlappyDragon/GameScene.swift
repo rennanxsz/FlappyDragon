@@ -53,7 +53,7 @@ class GameScene: SKScene {
         let invisibleRoof = SKNode()
         invisibleRoof.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: 1))
         invisibleRoof.physicsBody?.isDynamic = false
-        invisibleRoof.position = CGPoint(x: size.width/2, y: size.width)
+        invisibleRoof.position = CGPoint(x: size.width/2, y: size.height)
         invisibleRoof.zPosition = 2
         addChild(invisibleRoof)
     }
