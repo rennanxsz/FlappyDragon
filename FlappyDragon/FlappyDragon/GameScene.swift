@@ -21,6 +21,10 @@ class GameScene: SKScene {
     var scoreLabel: SKLabelNode!
     var score: Int = 0
     var flyForce: CGFloat = 30.0
+    var playerCategory: UInt32 = 1
+    var enemyCategory: UInt32 = 2
+    var scoreCategory: UInt32 = 4
+    
     
     override func didMove(to view: SKView) {
         addBackground()
@@ -145,6 +149,9 @@ class GameScene: SKScene {
                 player.physicsBody?.isDynamic = true
                 player.physicsBody?.allowsRotation = true
                 player.physicsBody?.applyForce(CGVector(dx: 0, dy: flyForce))
+                player.physicsBody?.categoryBitMask = playerCategory
+                player.physicsBody?.contactTestBitMask = scoreCategory
+                player.physicsBody?.collisionBitMask = enemyCategory
                 
                 gameStarted = true
 
