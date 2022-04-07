@@ -25,6 +25,7 @@ class GameScene: SKScene {
     var enemyCategory: UInt32 = 2
     var scoreCategory: UInt32 = 4
     var timer: Timer!
+    weak var gameViewController: GameViewController?
     
     
     override func didMove(to view: SKView) {
@@ -209,6 +210,7 @@ class GameScene: SKScene {
         } else {
             if restart {
                 restart = false
+                gameViewController?.presentScene()
             }
         }
     }
