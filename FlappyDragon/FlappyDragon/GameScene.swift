@@ -24,6 +24,7 @@ class GameScene: SKScene {
     var playerCategory: UInt32 = 1
     var enemyCategory: UInt32 = 2
     var scoreCategory: UInt32 = 4
+    var timer: Timer!
     
     
     override func didMove(to view: SKView) {
@@ -157,6 +158,29 @@ class GameScene: SKScene {
         addChild(laser)
     }
     
+    func gameOver() {
+        timer.invalidate()
+        player.zRotation = 0
+        player.texture = SKTexture(imageNamed: "playerDead")
+        for node in self.children {
+            node.removeAllActions()
+        }
+        player.physicsBody?.isDynamic = false
+        gameFinished = true
+        gameStarted = false
+        
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { (timer) in
+            let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+            gameOverLabel.fontColor = .red
+            gameOverLabel.fontSize = 40
+            gameOverLabel.text = "Game Over"
+            gameOverLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+            gameOverLabel.zPosition = 5
+            self.addChild(gameOverLabel)
+            self.restart = true
+        }
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !gameFinished {
@@ -174,13 +198,17 @@ class GameScene: SKScene {
                 
                 gameStarted = true
 
-                Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { (timer) in
+                timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { (timer) in
                     self.spawnEnemies()
                 }
 
             } else {
                 player.physicsBody?.velocity = CGVector.zero
                 player.physicsBody?.applyForce(CGVector(dx: 0, dy: flyForce))
+            }
+        } else {
+            if restart {
+                restart = false
             }
         }
     }
@@ -202,7 +230,8 @@ extension GameScene: SKPhysicsContactDelegate {
                 score += 1
                 scoreLabel.text = "\(score)"
             } else if contact.bodyA.categoryBitMask == enemyCategory || contact.bodyB.categoryBitMask == enemyCategory{
-                print("GameOver")
+                gameOver()
+                
             }
         }
     }
