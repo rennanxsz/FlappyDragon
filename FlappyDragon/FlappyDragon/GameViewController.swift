@@ -17,7 +17,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        stage = view as! SKView
+        stage = (view as! SKView)
         stage.ignoresSiblingOrder = true
         
         presentScene()
